@@ -1,0 +1,29 @@
+#!/bin/bash
+#======================================================================#
+# get_coreio_info - Collect basic info from the GPFS Core I/O Servers. #
+#----------------------------------------------------------------------#
+# Chad Kerner - chad.kerner@gmail.com - ckerner@illinois.edu           #
+# Senior Storage Engineer, Storage Enabling Technologies               #
+# National Center for Supercomputing Applications                      #
+# University of Illinois, Urbana-Champaign                             #
+#======================================================================#
+
+MNTFILE=/data/.IS_MOUNTED
+if [[ ! -f ${MNTFILE} ]] ; then
+   exit
+fi
+
+COREHN="MYHEADNODE"
+WORKDIR="MYWORKDIR"
+
+FNAME=`hostname -s`
+
+# If you want to add additional checks for every node, put them here.
+echo "${FNAME} "`uptime` >${WORKDIR}/uptime.${FNAME}
+
+# This is where you put checks that run on only 1 node.
+if [ "${FNAME}" == "${COREHN}" ] ; then
+   /usr/lpp/mmfs/bin/mmlsmgr -c >${WORKDIR}/gpfs.manager
+   /usr/lpp/mmfs/bin/mmgetstate -N coreio >${WORKDIR}/gpfs.state
+fi
+

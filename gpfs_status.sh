@@ -8,14 +8,17 @@
 # University of Illinois, Urbana-Champaign                             #
 #======================================================================#
 
-WORKDIR=MYWORKDIR
+# Only display something if we are on a real terminal.
+if [ ! -n "$TMUX" ] ; then 
+   WORKDIR=MYWORKDIR
 
-echo " "
-date
-echo " "
-cat ${WORKDIR}/gpfs.manager
-cat ${WORKDIR}/gpfs.state
-echo " "
-cat ${WORKDIR}/uptime.*
-echo " "
+   echo " "
+   date
+   echo " "
+   cat ${WORKDIR}/gpfs.manager
+   cat ${WORKDIR}/gpfs.state
+   echo " "
+   cat ${WORKDIR}/uptime.*
+   echo " "
 
+fi
